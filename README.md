@@ -36,13 +36,10 @@ I hope to make cutting-edge robotics research accessible and enjoyable for every
 
 ### Prerequisites
 
-Ensure you have the following installed:
+- Linux OS
+- Install Docker, Docker Compose CLI & git
 
-- **Docker & Docker Compose**: Required for containerized rendering
-- **Git**: For version control
-- **Bash**: For running the main script
-
-### Installation
+### Preparation
 
 1. Clone the repository:
 
@@ -75,11 +72,14 @@ Simply run the script without arguments to see an interactive menu:
 ./run.sh
 ```
 
-You'll see a menu like this:
+<details>
+<summary>Example</summary>
 
 <div align="center">
   <img src="assets/run-script.png" alt="Interactive Menu" />
 </div>
+
+</details>
 
 </br>
 
@@ -107,45 +107,13 @@ workspace/media/videos/<scene_name>/<quality>/
 
 </div>
 
-| ID | Paper Title | Status | Script |
-|----|-------------|--------|--------|
-| 1  | *PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL* | 🚧 In Progress | [View Article](https://www.wenlixiao.com/self-improve-VLA-PLD) |
-| 2  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
-| 3  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
+| ID | Paper Title | Status |
+|----|-------------|--------|
+| 1  | [*PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL*](https://www.wenlixiao.com/self-improve-VLA-PLD) | 🚧 In Progress |
+| 2  | *(Reserved for future paper)* | 🔜 Coming Soon |
+| 3  | *(Reserved for future paper)* | 🔜 Coming Soon |
 
 </br>
-<div align="center">
-
-## 🛠️ Technical Details
-
-</div>
-
-### Docker Image
-
-The Docker image includes:
-
-- **Base**: Ubuntu 22.04
-- **Python**: Python 3 with pip
-- **Manim**: Manim Community Edition
-- **FFmpeg**: For video rendering
-- **LaTeX**: For mathematical typesetting (texlive-full)
-- **Scientific Libraries**: NumPy, SciPy, Matplotlib
-
-### Manim Quality Options
-
-- `-ql`: Low quality (854x480, 15fps) - Fast preview
-- `-qm`: Medium quality (1280x720, 30fps)
-- `-qh`: High quality (1920x1080, 60fps)
-- `-qk`: 4K quality (3840x2160, 60fps)
-
-### Flags
-
-- `-p`: Preview after rendering
-- `-s`: Save last frame as image
-- `-i`: Show file in finder after rendering
-
-</br>
-
 <div align="center">
 
 ## 📝 License
