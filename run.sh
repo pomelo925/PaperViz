@@ -18,6 +18,10 @@ set -e
 # Export DISPLAY for X11 forwarding
 export DISPLAY=:0
 
+# Set user permissions for Docker
+export USER_ID=$(id -u)
+export GROUP_ID=$(id -g)
+
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/docker/compose.cpu.yml"

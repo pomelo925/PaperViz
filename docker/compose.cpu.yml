@@ -19,6 +19,8 @@ x-common-settings: &common
   environment:
     - DISPLAY=${DISPLAY}
 
+  user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+  
   network_mode: "host"
   ipc: host
   
