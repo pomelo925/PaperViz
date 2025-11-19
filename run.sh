@@ -15,6 +15,9 @@
 
 set -e
 
+# Export DISPLAY for X11 forwarding
+export DISPLAY=:0
+
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COMPOSE_FILE="$SCRIPT_DIR/docker/compose.cpu.yml"
@@ -96,7 +99,7 @@ render_animation() {
     echo -e "${YELLOW}This may take a few minutes...${NC}"
     echo ""
     
-    docker exec -it "$CONTAINER_NAME" manim --resolution 1920,1080 --frame_rate 144 -p "$script_path" "$scene_name"
+    docker exec -it "$CONTAINER_NAME" manim --resolution 1920,1080 --frame_rate 144 "$script_path" "$scene_name"
     
     local exit_code=$?
     
