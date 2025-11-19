@@ -14,25 +14,29 @@
 
 </div>
 
+</br>
+
+<div align="center">
+
 ## 📖 About The Project
 
-**PaperViz** is a toolkit that transforms complex research papers into engaging visual animations using [Manim Community Edition](https://www.manim.community/). Each paper is broken down into key concepts and visualized through carefully crafted animations, making it easier to understand and share cutting-edge research.
+</div>
 
-### Why PaperViz?
+**PaperViz** is a personal project that brings robotics research papers to life through animation. Using [Manim Community Edition](https://www.manim.community/), I create educational videos that break down complex algorithms and architectures into easy-to-understand visual stories.
 
-- 🎬 **Visual Learning**: Transform dense academic papers into intuitive animations
-- 🚀 **Easy to Use**: Simple CLI interface with Docker containerization
-- 🔄 **Reproducible**: Consistent rendering environment across all platforms
-- 📚 **Expandable**: Easy to add new papers and concepts
-- 🎨 **Professional**: High-quality animations powered by Manim
+I hope to make cutting-edge robotics research accessible and enjoyable for everyone curious about the field!
 
----
+</br>
+
+<div align="center">
 
 ## 🚀 Getting Started
 
+</div>
+
 ### Prerequisites
 
-Before using PaperViz, ensure you have the following installed:
+Ensure you have the following installed:
 
 - **Docker & Docker Compose**: Required for containerized rendering
 - **Git**: For version control
@@ -53,19 +57,17 @@ Before using PaperViz, ensure you have the following installed:
    chmod +x run.sh
    ```
 
-3. Build the Docker image (first time only):
+</br>
 
-   ```bash
-   docker compose -f docker/compose.cpu.yml build
-   ```
-
----
+<div align="center">
 
 ## 🎯 Usage
 
+</div>
+
 PaperViz provides two ways to render animations:
 
-### Interactive Mode
+### A. Interactive Mode
 
 Simply run the script without arguments to see an interactive menu:
 
@@ -75,24 +77,13 @@ Simply run the script without arguments to see an interactive menu:
 
 You'll see a menu like this:
 
-```
-╔════════════════════════════════════════════════════════════════╗
-║                         PaperViz                               ║
-║              Manim Animation Toolkit for Papers                ║
-╚════════════════════════════════════════════════════════════════╝
+<div align="center">
+  <img src="assets/run-script.png" alt="Interactive Menu" />
+</div>
 
-Select a paper to visualize:
+</br>
 
-  [1] PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL
-  [2] (Reserved for future paper)
-  [3] (Reserved for future paper)
-
-  [0] Exit
-
-Enter paper ID:
-```
-
-### Direct Mode
+### B. Direct Mode
 
 Render a specific paper directly by providing its ID:
 
@@ -102,117 +93,32 @@ Render a specific paper directly by providing its ID:
 
 ### Output
 
-Rendered animations are saved to:
+After rendering, the animation video will be saved to:
 
 ```
-workspace/media/videos/
+workspace/media/videos/<scene_name>/<quality>/
 ```
 
----
+</br>
+
+<div align="center">
 
 ## 📚 Available Papers
 
+</div>
+
 | ID | Paper Title | Status | Script |
 |----|-------------|--------|--------|
-| 1  | **PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL** | ✅ Available | `papers/1_pld/pld_scene.py` |
+| 1  | *PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL* | 🚧 In Progress | [View Article](https://www.wenlixiao.com/self-improve-VLA-PLD) |
 | 2  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
 | 3  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
 
----
-
-## 📁 Project Structure
-
-```
-PaperViz/
-├── run.sh                          # Main execution script
-├── docker/                         # Docker configuration
-│   ├── dockerfile.cpu              # Manim environment Dockerfile
-│   └── compose.cpu.yml             # Docker Compose configuration
-├── .github/                        # GitHub workflows
-│   └── workflows/
-│       └── docker.cpu.yml          # CI/CD for Docker image
-├── workspace/                      # Main workspace (mounted in container)
-│   ├── media/                      # Rendered animation output
-│   └── papers/                     # Paper-specific scripts
-│       ├── 1_pld/
-│       │   ├── pld_scene.py        # Manim scenes for PLD paper
-│       │   └── README.md           # Paper-specific documentation
-│       ├── 2_xxx/                  # Future papers...
-│       └── 3_xxx/
-└── README.md                       # This file
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how to add a new paper:
-
-### Adding a New Paper
-
-1. **Create a new folder** in `workspace/papers/`:
-
-   ```bash
-   mkdir -p workspace/papers/[ID]_[paper_name]
-   ```
-
-2. **Create the Manim scene file**:
-
-   ```bash
-   touch workspace/papers/[ID]_[paper_name]/scene.py
-   ```
-
-3. **Write your Manim animations** in the scene file. See `papers/1_pld/pld_scene.py` for examples.
-
-4. **Update `run.sh`** to include your paper:
-
-   ```bash
-   # Add to PAPERS array
-   PAPERS[2]="YOUR PAPER TITLE"
-   
-   # Add script path
-   PAPER_SCRIPTS[2]="papers/2_yourpaper/scene.py"
-   
-   # Add scene name
-   PAPER_SCENES[2]="YourMainScene"
-   ```
-
-5. **Create a README** for your paper:
-
-   ```bash
-   touch workspace/papers/[ID]_[paper_name]/README.md
-   ```
-
-6. **Test your animation**:
-
-   ```bash
-   ./run.sh [ID]
-   ```
-
-### Development Workflow
-
-For development and debugging, you can enter the container directly:
-
-```bash
-docker compose -f docker/compose.cpu.yml run --rm manim /bin/bash
-```
-
-Inside the container, you can run Manim commands manually:
-
-```bash
-# Render in low quality for quick preview
-manim -ql papers/1_pld/pld_scene.py PLDIntro
-
-# Render in high quality
-manim -qh papers/1_pld/pld_scene.py PLDComplete
-
-# Preview specific scene
-manim -p papers/1_pld/pld_scene.py PLDWorkflow
-```
-
----
+</br>
+<div align="center">
 
 ## 🛠️ Technical Details
+
+</div>
 
 ### Docker Image
 
@@ -238,21 +144,29 @@ The Docker image includes:
 - `-s`: Save last frame as image
 - `-i`: Show file in finder after rendering
 
----
+</br>
+
+<div align="center">
 
 ## 📝 License
 
+</div>
+
 Distributed under the MIT License. See `LICENSE` for more information.
 
----
+</br>
+
+<div align="center">
 
 ## 🙏 Acknowledgments
+
+</div>
 
 - [Manim Community Edition](https://www.manim.community/) - The animation engine
 - All paper authors whose work we visualize
 - Contributors to this project
 
----
+</br>
 
 <div align="center">
 
@@ -264,7 +178,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 </div>
 
----
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/pomelo925/PaperViz.svg?style=for-the-badge
