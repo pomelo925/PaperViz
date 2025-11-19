@@ -1,2 +1,7 @@
 # ide
 .vscode/
+
+media/
+
+*.pyc
+__pycache__/

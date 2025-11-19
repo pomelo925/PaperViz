@@ -1,11 +1,10 @@
 <div align="center">
 
-# ProbRT
+# PaperViz
 
 <p align="center">
-  <strong>Project-based Repository Template</strong>
+  <strong>A Manim-based Animation Toolkit for Visualizing Research Papers</strong>
 </p>
-
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -13,140 +12,268 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
 </div>
 
-<div align="center" style="max-width: 80%; margin: 0 auto;">
+## 📖 About The Project
 
-ProbRT is a project-based repository template that provides a complete development environment with Docker containerization, GitHub workflows, and standardized project structures. It offers both CPU and GPU support with multi-stage builds and CI/CD pipelines.
+**PaperViz** is a toolkit that transforms complex research papers into engaging visual animations using [Manim Community Edition](https://www.manim.community/). Each paper is broken down into key concepts and visualized through carefully crafted animations, making it easier to understand and share cutting-edge research.
 
-</div>
+### Why PaperViz?
 
-<div align="center">
+- 🎬 **Visual Learning**: Transform dense academic papers into intuitive animations
+- 🚀 **Easy to Use**: Simple CLI interface with Docker containerization
+- 🔄 **Reproducible**: Consistent rendering environment across all platforms
+- 📚 **Expandable**: Easy to add new papers and concepts
+- 🎨 **Professional**: High-quality animations powered by Manim
 
-</br>
+---
 
-## Getting Started
-
-</div>
+## 🚀 Getting Started
 
 ### Prerequisites
 
-Before using ProbRT, ensure you have the following installed on your Linux system:
+Before using PaperViz, ensure you have the following installed:
 
-- **Docker & Docker Compose**: Required for containerized development
-- **Git**: For version control and submodule management
-- **NVIDIA Docker Runtime**: Required for GPU support (optional)
+- **Docker & Docker Compose**: Required for containerized rendering
+- **Git**: For version control
+- **Bash**: For running the main script
 
-</br>
+### Installation
 
-### Installation & Usage
+1. Clone the repository:
 
-1. Clone the repository with submodules:
    ```bash
-   git clone --recursive https://github.com/pomelo925/ProbRT.git
-   cd ProbRT
+   git clone https://github.com/pomelo925/PaperViz.git
+   cd PaperViz
    ```
 
-2. Run the development environment:
+2. Make the run script executable:
+
    ```bash
-   ./run.sh <device> <service>
+   chmod +x run.sh
    ```
 
-   <details>
-   <summary><strong>Examples</strong></summary>
-   
+3. Build the Docker image (first time only):
+
    ```bash
-   ./run.sh cpu dev       # Start CPU development environment
-   ./run.sh gpu deploy    # Start GPU deployment service
+   docker compose -f docker/compose.cpu.yml build
    ```
-   </details>
 
-3. Configure GitHub Actions secrets for CI/CD workflows:
-   - Go to your repository **Settings** → **Secrets and variables** → **Actions**
-   - Add the following repository secrets:
-     - `DOCKERHUB_USERNAME`: Your Docker Hub username
-     - `DOCKERHUB_TOKEN`: Your Docker Hub access token
-   - These secrets enable automatic Docker image building and pushing via GitHub Actions
+---
 
-<div align="center">
+## 🎯 Usage
 
-</br>
+PaperViz provides two ways to render animations:
 
-## Project Structure
+### Interactive Mode
 
-</div>
+Simply run the script without arguments to see an interactive menu:
+
+```bash
+./run.sh
+```
+
+You'll see a menu like this:
 
 ```
-ProbRT/
-├── run.sh                      # Main execution script for Docker services
-├── docker/                     # Docker configuration files
-│   ├── dockerfile.cpu              # CPU-only multi-stage Dockerfile
-│   ├── dockerfile.gpu              # GPU-enabled multi-stage Dockerfile
-│   ├── compose.cpu.yml             # CPU Docker Compose configuration
-│   └── compose.gpu.yml             # GPU Docker Compose configuration
-├── .github/                    # GitHub workflows and CI/CD
+╔════════════════════════════════════════════════════════════════╗
+║                         PaperViz                               ║
+║              Manim Animation Toolkit for Papers                ║
+╚════════════════════════════════════════════════════════════════╝
+
+Select a paper to visualize:
+
+  [1] PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL
+  [2] (Reserved for future paper)
+  [3] (Reserved for future paper)
+
+  [0] Exit
+
+Enter paper ID:
+```
+
+### Direct Mode
+
+Render a specific paper directly by providing its ID:
+
+```bash
+./run.sh 1    # Renders Paper ID 1 (PLD)
+```
+
+### Output
+
+Rendered animations are saved to:
+
+```
+workspace/media/videos/
+```
+
+---
+
+## 📚 Available Papers
+
+| ID | Paper Title | Status | Script |
+|----|-------------|--------|--------|
+| 1  | **PLD: SELF-IMPROVING VISION-LANGUAGE-ACTION MODELS WITH DATA GENERATION VIA RESIDUAL RL** | ✅ Available | `papers/1_pld/pld_scene.py` |
+| 2  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
+| 3  | *(Reserved for future paper)* | 🔜 Coming Soon | - |
+
+---
+
+## 📁 Project Structure
+
+```
+PaperViz/
+├── run.sh                          # Main execution script
+├── docker/                         # Docker configuration
+│   ├── dockerfile.cpu              # Manim environment Dockerfile
+│   └── compose.cpu.yml             # Docker Compose configuration
+├── .github/                        # GitHub workflows
 │   └── workflows/
-│       ├── docker.cpu.yml          # CPU Docker build and push workflow
-│       └── docker.gpu.yml          # GPU Docker build and push workflow
-├── workspace/                  # Development workspace (mounted as volume)
-└── README.md                   # Project documentation
+│       └── docker.cpu.yml          # CI/CD for Docker image
+├── workspace/                      # Main workspace (mounted in container)
+│   ├── media/                      # Rendered animation output
+│   └── papers/                     # Paper-specific scripts
+│       ├── 1_pld/
+│       │   ├── pld_scene.py        # Manim scenes for PLD paper
+│       │   └── README.md           # Paper-specific documentation
+│       ├── 2_xxx/                  # Future papers...
+│       └── 3_xxx/
+└── README.md                       # This file
 ```
 
-<div align="center">
+---
 
-</br>
+## 🤝 Contributing
 
-## Docker Services
+We welcome contributions! Here's how to add a new paper:
 
-</div>
+### Adding a New Paper
 
-### CPU Services
-- **dev**: Development environment with interactive shell access
-- **deploy**: Deployment service for production applications
+1. **Create a new folder** in `workspace/papers/`:
 
-### GPU Services  
-- **dev**: GPU-enabled development environment with NVIDIA runtime
-- **deploy**: GPU-accelerated deployment service
+   ```bash
+   mkdir -p workspace/papers/[ID]_[paper_name]
+   ```
 
-All services include:
-- Health checks for application monitoring
-- Volume mounts for development workspace
-- X11 forwarding for GUI applications
-- Multi-stage builds for optimized container size
+2. **Create the Manim scene file**:
 
-<div align="center">
+   ```bash
+   touch workspace/papers/[ID]_[paper_name]/scene.py
+   ```
 
-</br>
+3. **Write your Manim animations** in the scene file. See `papers/1_pld/pld_scene.py` for examples.
 
-## License
+4. **Update `run.sh`** to include your paper:
 
-</div>
+   ```bash
+   # Add to PAPERS array
+   PAPERS[2]="YOUR PAPER TITLE"
+   
+   # Add script path
+   PAPER_SCRIPTS[2]="papers/2_yourpaper/scene.py"
+   
+   # Add scene name
+   PAPER_SCENES[2]="YourMainScene"
+   ```
+
+5. **Create a README** for your paper:
+
+   ```bash
+   touch workspace/papers/[ID]_[paper_name]/README.md
+   ```
+
+6. **Test your animation**:
+
+   ```bash
+   ./run.sh [ID]
+   ```
+
+### Development Workflow
+
+For development and debugging, you can enter the container directly:
+
+```bash
+docker compose -f docker/compose.cpu.yml run --rm manim /bin/bash
+```
+
+Inside the container, you can run Manim commands manually:
+
+```bash
+# Render in low quality for quick preview
+manim -ql papers/1_pld/pld_scene.py PLDIntro
+
+# Render in high quality
+manim -qh papers/1_pld/pld_scene.py PLDComplete
+
+# Preview specific scene
+manim -p papers/1_pld/pld_scene.py PLDWorkflow
+```
+
+---
+
+## 🛠️ Technical Details
+
+### Docker Image
+
+The Docker image includes:
+
+- **Base**: Ubuntu 22.04
+- **Python**: Python 3 with pip
+- **Manim**: Manim Community Edition
+- **FFmpeg**: For video rendering
+- **LaTeX**: For mathematical typesetting (texlive-full)
+- **Scientific Libraries**: NumPy, SciPy, Matplotlib
+
+### Manim Quality Options
+
+- `-ql`: Low quality (854x480, 15fps) - Fast preview
+- `-qm`: Medium quality (1280x720, 30fps)
+- `-qh`: High quality (1920x1080, 60fps)
+- `-qk`: 4K quality (3840x2160, 60fps)
+
+### Flags
+
+- `-p`: Preview after rendering
+- `-s`: Save last frame as image
+- `-i`: Show file in finder after rendering
+
+---
+
+## 📝 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-</br>
+---
+
+## 🙏 Acknowledgments
+
+- [Manim Community Edition](https://www.manim.community/) - The animation engine
+- All paper authors whose work we visualize
+- Contributors to this project
+
+---
 
 <div align="center">
 
 ## Contributors
 
-</div>
-
-<a href="https://github.com/pomelo925/ProbRT/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=pomelo925/ProbRT" />
+<a href="https://github.com/pomelo925/PaperViz/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=pomelo925/PaperViz" alt="Contributors" />
 </a>
 
+</div>
+
+---
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/pomelo925/ProbRT.svg?style=for-the-badge
-[contributors-url]: https://github.com/pomelo925/ProbRT/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/pomelo925/ProbRT.svg?style=for-the-badge
-[forks-url]: https://github.com/pomelo925/ProbRT/network/members
-[stars-shield]: https://img.shields.io/github/stars/pomelo925/ProbRT.svg?style=for-the-badge
-[stars-url]: https://github.com/pomelo925/ProbRT/stargazers
-[issues-shield]: https://img.shields.io/github/issues/pomelo925/ProbRT.svg?style=for-the-badge
-[issues-url]: https://github.com/pomelo925/ProbRT/issues
-[license-shield]: https://img.shields.io/github/license/pomelo925/ProbRT.svg?style=for-the-badge
-[license-url]: https://github.com/pomelo925/ProbRT/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/pomelo925/PaperViz.svg?style=for-the-badge
+[contributors-url]: https://github.com/pomelo925/PaperViz/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/pomelo925/PaperViz.svg?style=for-the-badge
+[forks-url]: https://github.com/pomelo925/PaperViz/network/members
+[stars-shield]: https://img.shields.io/github/stars/pomelo925/PaperViz.svg?style=for-the-badge
+[stars-url]: https://github.com/pomelo925/PaperViz/stargazers
+[issues-shield]: https://img.shields.io/github/issues/pomelo925/PaperViz.svg?style=for-the-badge
+[issues-url]: https://github.com/pomelo925/PaperViz/issues
+[license-shield]: https://img.shields.io/github/license/pomelo925/PaperViz.svg?style=for-the-badge
+[license-url]: https://github.com/pomelo925/PaperViz/blob/main/LICENSE

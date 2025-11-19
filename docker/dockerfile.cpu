@@ -4,15 +4,16 @@
 ################################################################################################
 FROM ubuntu:22.04 AS base
 
-LABEL org.opencontainers.image.title="foo"
+LABEL org.opencontainers.image.title="paperviz-manim"
 LABEL org.opencontainers.image.authors="pomelo925"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.description="PaperViz - Manim-based animation toolkit for visualizing research papers"
 
 # Environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
-ENV ROS_DISTRO=humble
+ENV PYTHONUNBUFFERED=1
 
 # Shell configuration
 SHELL ["/bin/bash", "-c"]
@@ -23,13 +24,8 @@ RUN echo 'Etc/UTC' > /etc/timezone \
     && apt-get update \
     && apt-get install -q -y \
         tzdata \
-        dirmngr \
-        gnupg2 \
         build-essential \
         git \
-        zip \
-        iputils-ping \
-        udev \
         curl \
         wget \
         sudo \
@@ -37,60 +33,58 @@ RUN echo 'Etc/UTC' > /etc/timezone \
         python3 \
         python3-pip \
         python3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-################################################################################################
-# ROS2 Humble Development stage
-# - Installs ROS2 environment and development tools
-################################################################################################
-FROM base AS ros2-humble-devel
-
-# Setup ROS2 keys and sources
-RUN set -eux; \
-    key='C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654'; \
-    export GNUPGHOME="$(mktemp -d)"; \
-    gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "$key"; \
-    mkdir -p /usr/share/keyrings; \
-    gpg --batch --export "$key" > /usr/share/keyrings/ros2-latest-archive-keyring.gpg; \
-    gpgconf --kill all; \
-    rm -rf "$GNUPGHOME"
-
-RUN echo "deb [ signed-by=/usr/share/keyrings/ros2-latest-archive-keyring.gpg ] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2-latest.list
-
-# Install ROS2 environment and development tools
-RUN apt-get update && \
-    apt-get install -y \
-        ros-humble-ros-base \
-        ros-humble-ament-cmake \
-        ros-humble-ament-cmake-python \
-        ros-humble-ament-cmake-ros \
-        ros-humble-rosidl-default-generators \
-        ros-humble-rosidl-default-runtime \
-        ros-humble-rosidl-generator-py \
-        python3-colcon-common-extensions \
-        python3-colcon-mixin \
-        python3-rosdep \
-        python3-vcstool \
-        python3-colcon-clean \
-        ros-dev-tools \
-        cmake \
         python3-setuptools \
         python3-wheel \
     && rm -rf /var/lib/apt/lists/*
 
-# Bootstrap rosdep and setup colcon
-RUN rosdep init \
-    && rosdep update --rosdistro $ROS_DISTRO \
-    && colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml \
-    && colcon mixin update \
-    && colcon metadata add default https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml \
-    && colcon metadata update
+################################################################################################
+# Manim Dependencies stage
+# - Installs ffmpeg, LaTeX, and other Manim runtime dependencies
+################################################################################################
+FROM base AS manim-deps
+
+# Install ffmpeg and LaTeX dependencies
+RUN apt-get update && \
+    apt-get install -y \
+        ffmpeg \
+        texlive \
+        texlive-latex-extra \
+        texlive-fonts-extra \
+        texlive-latex-recommended \
+        texlive-science \
+        texlive-fonts-recommended \
+        cm-super \
+        dvipng \
+        libcairo2-dev \
+        libpango1.0-dev \
+        pkg-config \
+        python3-cairo \
+        python3-pil \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN python3 -m pip install --no-cache-dir --upgrade pip
+
+# Install Manim Community Edition and common scientific libraries
+RUN pip3 install --no-cache-dir \
+    manim \
+    numpy \
+    scipy \
+    matplotlib \
+    jupyterlab \
+    ipython
 
 ################################################################################################
 # Final Release stage
 # - Sets up environment and creates the final image
 ################################################################################################
-FROM ros2-humble-devel AS release
+FROM manim-deps AS release
 
-# Source ROS setup in bashrc
-RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+# Set working directory
+WORKDIR /workspace
+
+# Create output directory for rendered videos
+RUN mkdir -p /workspace/media
+
+# Default command
+CMD ["/bin/bash"]
