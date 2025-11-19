@@ -35,7 +35,7 @@ PAPERS[2]="(Reserved for future paper)"
 PAPERS[3]="(Reserved for future paper)"
 
 declare -A PAPER_SCRIPTS
-PAPER_SCRIPTS[1]="papers/1_pld/pld_scene.py"
+PAPER_SCRIPTS[1]="paper/1_pld/pld_scene.py"
 PAPER_SCRIPTS[2]=""
 PAPER_SCRIPTS[3]=""
 
@@ -110,7 +110,7 @@ render_animation() {
     if [ $exit_code -eq 0 ]; then
         echo ""
         echo -e "${GREEN}✓ Animation rendered successfully!${NC}"
-        echo -e "${BLUE}Output saved to: workspace/media/${NC}"
+        echo -e "${BLUE}Output saved to: media/${NC}"
         echo ""
     else
         echo ""

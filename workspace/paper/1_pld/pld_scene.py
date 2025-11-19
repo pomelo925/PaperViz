@@ -5,9 +5,24 @@ This Manim scene visualizes key concepts from the PLD paper.
 """
 
 from manim import *
+import sys
+from pathlib import Path
+
+# Add workspace to Python path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from shared.opening import OpeningScene
+from shared.background import BaseScene
 
 
-class PLDIntro(Scene):
+class PLDOpening(OpeningScene):
+    title_str = "PLD: Self-Improving VLA Models"
+    subtitle_str = "Data Generation via Residual RL"
+    author_str = "Unknown"
+    publish_date_str = "2024"
+
+
+class PLDIntro(BaseScene):
     def construct(self):
         # Title
         title = Text("PLD: Self-Improving VLA Models", font_size=48)
@@ -67,7 +82,7 @@ class PLDIntro(Scene):
         )
 
 
-class PLDResidualRL(Scene):
+class PLDResidualRL(BaseScene):
     def construct(self):
         title = Text("Residual RL Concept", font_size=40)
         title.to_edge(UP)
@@ -118,7 +133,7 @@ class PLDResidualRL(Scene):
         self.play(*[FadeOut(mob) for mob in self.mobjects])
 
 
-class PLDWorkflow(Scene):
+class PLDWorkflow(BaseScene):
     def construct(self):
         title = Text("PLD Training Workflow", font_size=40)
         title.to_edge(UP)
@@ -174,7 +189,7 @@ class PLDWorkflow(Scene):
 
 
 # Main scene combining all concepts
-class PLDComplete(Scene):
+class PLDComplete(BaseScene):
     def construct(self):
         # Title slide
         main_title = Text("PLD Framework", font_size=56, weight=BOLD)
